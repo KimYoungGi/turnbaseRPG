@@ -1,6 +1,5 @@
 
 public class Enemy extends Charactor{
-
 	
 	public Enemy(){
 		HP = 5;
@@ -10,4 +9,6 @@ public class Enemy extends Charactor{
 		System.out.println(place);
 		System.out.println(power);
 	}
+	
+	
 }
