@@ -27,7 +27,7 @@ public class GameManager {
 	
 	public void attackPlayer(){
 		System.out.println("enemy에게 " + player.getPower() + "로 공격합니다.");
-		System.out.println("으악! 저는 " + player.getPower() + "의 데미지를 입었습니다");
+		System.out.println("으악! enemy는 " + player.getPower() + "의 데미지를 입었습니다");
 		int remainHP = enemy.getHP() - player.getPower();
 		System.out.println("enemy의 남은 HP는 " + remainHP + "입니다");
 		if(remainHP <= 0){
@@ -42,14 +42,14 @@ public class GameManager {
 	
 	public void attackEnemy(){
 		System.out.println("Player에게 " + enemy.getPower() + "로 공격합니다.");
-		System.out.println("으악! 저는 " + enemy.getPower() + "의 데미지를 입었습니다");
+		System.out.println("으악! Player는 " + enemy.getPower() + "의 데미지를 입었습니다");
 		int remainHP = player.getHP() - enemy.getPower();
-		System.out.println("player의 남은 HP는 " + remainHP + "입니다");
+		System.out.println("Player의 남은 HP는 " + remainHP + "입니다");
 		if(remainHP <= 0){
-			System.out.println("player가 죽었습니다.");
+			System.out.println("Player가 죽었습니다.");
 			EndGame("Enemy");
 		} else {
-			System.out.println("player가 죽지 않았기 때문에 저는 턴을 종료합니다.");
+			System.out.println("Player가 죽지 않았기 때문에 저는 턴을 종료합니다.");
 			player.setHP(remainHP);
 			nextTurn();
 		}
