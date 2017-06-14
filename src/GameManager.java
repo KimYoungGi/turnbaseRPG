@@ -1,14 +1,11 @@
 
 public class GameManager {
 
-	private Map map;
 	private Player player;
 	private Enemy enemy;
-	private boolean playerTurn = true;
+	private boolean playerTurn = false;
 	
 	public GameManager(){
-		System.out.println("Map 생성");
-		setMap(new Map());
 		System.out.println("Player 생성");
 		setPlayer(new Player());
 		System.out.println("Enemy 생성");
@@ -18,71 +15,20 @@ public class GameManager {
 	}
 	
 	public void StartGame(){
-		movePlayer();
+		checkWinner();
 	}
 	
-	public double getDistance(int x, int y, int x1, int y1){
-		return Math.sqrt(Math.pow(Math.abs(x1-x), 2) + Math.pow(Math.abs(y1-y), 2));
-	}
-	
-	public void attackPlayer(){
-		System.out.println("enemy에게 " + player.getPower() + "로 공격합니다.");
-		System.out.println("으악! enemy는 " + player.getPower() + "의 데미지를 입었습니다");
-		int remainHP = enemy.getHP() - player.getPower();
-		System.out.println("enemy의 남은 HP는 " + remainHP + "입니다");
-		if(remainHP <= 0){
-			System.out.println("enemy가 죽었습니다.");
-			EndGame("Player");
-		} else {
-			System.out.println("enemy가 죽지 않았기 때문에 저는 턴을 종료합니다.");
-			enemy.setHP(remainHP);
-			nextTurn();
-		}
-	}
-	
-	public void attackEnemy(){
-		System.out.println("Player에게 " + enemy.getPower() + "로 공격합니다.");
-		System.out.println("으악! Player는 " + enemy.getPower() + "의 데미지를 입었습니다");
-		int remainHP = player.getHP() - enemy.getPower();
-		System.out.println("Player의 남은 HP는 " + remainHP + "입니다");
-		if(remainHP <= 0){
-			System.out.println("Player가 죽었습니다.");
-			EndGame("Enemy");
-		} else {
-			System.out.println("Player가 죽지 않았기 때문에 저는 턴을 종료합니다.");
-			player.setHP(remainHP);
-			nextTurn();
-		}
-	}
-	
-	public void movePlayer(){
-		double distance = getDistance(player.getPlayerPlaceX(), player.getPlayerPlaceY(), enemy.getEnemyPlaceX(), enemy.getEnemyPlaceY());
-		System.out.println("Enemy와 저의 거리는 " + distance + "입니다.");
-		if(distance <= 1){
-			System.out.println("거리가 1보다 작으니 공격을 합니다.");
-			attackPlayer();
-		} else {
-			System.out.println("공격을 할 수 없으니 1만큼 이동합니다.");			
-			player.setPlayerPlaceX(player.getPlayerPlaceX()+1);
-			player.setPlayerPlaceY(player.getPlayerPlaceY()+1);
-			System.out.println("Player 이동이 끝났습니다. 턴을 종료할게요.");
-			nextTurn();
-		}
-	}
-	
-
-	public void moveEnemy(){
-		double distance = getDistance(player.getPlayerPlaceX(), player.getPlayerPlaceY(), enemy.getEnemyPlaceX(), enemy.getEnemyPlaceY());
-		System.out.println("Player와 저의 거리는 " + distance + "입니다.");
-		if(distance <= 1){
-			System.out.println("거리가 1보다 작으니 공격을 합니다.");
-			attackEnemy();
-		} else {
-			System.out.println("공격을 할 수 없으니 1만큼 이동합니다.");			
-			enemy.setEnemyPlaceX(enemy.getEnemyPlaceX()-1);
-			enemy.setEnemyPlaceY(enemy.getEnemyPlaceY()-1);
-			System.out.println("Enemy 이동이 끝났습니다. 저는 턴을 종료할게요.");
-			nextTurn();
+	public void checkWinner(){
+		while(player.getHP() > 0 || enemy.getHP() > 0){
+			if(player.winner == "Player"){
+				EndGame(player.winner);
+				break;
+			} else if(enemy.winner == "Enemy"){
+				EndGame(enemy.winner);
+				break;
+			} else {
+				nextTurn();
+			}
 		}
 	}
 	
@@ -93,19 +39,13 @@ public class GameManager {
 	public void nextTurn(){
 		if(playerTurn == true){
 			playerTurn = false;
-			moveEnemy();
+			System.out.println("Enemy 턴 진행");
+			enemy.moveEnemy(player);
 		} else {
 			playerTurn = true;
-			movePlayer();
+			System.out.println("Player 턴 진행");
+			player.movePlayer(enemy);
 		}
-	}
-
-	public Map getMap() {
-		return map;
-	}
-
-	public void setMap(Map map) {
-		this.map = map;
 	}
 
 	public Charactor getPlayer() {

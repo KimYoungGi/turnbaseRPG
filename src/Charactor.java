@@ -2,29 +2,12 @@
 public class Charactor {
 	protected int HP;
 	protected int power;
-	protected int place;
-	private Player p;
-	private Enemy e;
+	protected String winner;
 	
-	public int distance(Charactor A){
-		
-		return 1;
+	public double getDistance(int x, int y, int x1, int y1){
+		return Math.sqrt(Math.pow(Math.abs(x1-x), 2) + Math.pow(Math.abs(y1-y), 2));
 	}
 	
-	public void move(){
-		System.out.println("Map은 저에게 Enemy 정보를 주세요.");
-	}
-	
-	public int Attack(int hit){
-		
-		return 1;
-	}
-	
-	public int Damage(int damage){
-		
-		return 1;
-	}
-
 	public int getHP() {
 		return HP;
 	}
@@ -39,13 +22,5 @@ public class Charactor {
 
 	public void setPower(int power) {
 		this.power = power;
-	}
-
-	public int getPlace() {
-		return place;
-	}
-
-	public void setPlace(int place) {
-		this.place = place;
 	}
 }
